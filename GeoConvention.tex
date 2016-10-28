@@ -34,6 +34,7 @@
 \usepackage[font={scriptsize}]{caption}
 \usepackage[font={scriptsize}]{subcaption}
 \usepackage{layout}
+\usepackage{wrapfig}
 \usepackage[scaled]{uarial}
 \renewcommand*\familydefault{\sfdefault} 
 \usepackage[T1]{fontenc}
@@ -83,7 +84,7 @@
 %\thispagestyle{sty1}
 
 \begin{center}
-\includegraphics[width=2.5in]{header.png} \vspace{-1pt}
+\includegraphics[width=9.22cm]{header.png} \vspace{-1pt}
 \end{center}
 
 % Title must be 150 characters or less
@@ -96,103 +97,166 @@
 
 % Insert Author names, affiliations and corresponding author email.
 %\\
-\textit{Anton Biryukov, Nicola Tisato, Giovanni Grasselli} \\
-\textit{Department of Civil Engineering, University of Toronto}
+\textit{Anton Biryukov${}^1$, Evgeny Chzen${}^2$, Jan Dettmer${}^1$, David Eaton${}^1$} \\
+\textit{${}^1$ Department of Geoscience, University of Calgary, Calgary, AB, Canada} \\
+\textit{${}^2$ LAMA, UMR-CNRS 8050, Universit\'{e} Paris Est -- Marne-la-Vall\'{e}e}
 \end{flushleft}
 
 \section*{Summary}
-Estimation of attenuation of the seismic waves in viscoelastic media is important for the quality of geophysical methods relying on processing the recorded waveforms (\cite{marelli_appraisal_2010,madonna_new_2013,nicola_tisato_seismic_2014}).
-The purpose of this particular contribution is twofold:(i) propose a methodology to numerically estimate attenuation in the material of interest based on laboratory data; (ii) demonstrate that attenuation can vary with the physical conditions of the medium and how that variation affects signal propagation on the real scale.
+%
+The induced seismicity event localization using inverse kinematic algorithms is still a problem requiring special attention. Often a catalog of events detected and located using limited on-surface instrumentation lacks the precision of origin depth. Such errors can hinder the interpretation of activated zones using seismicity as a proxy.
 
+The location constraints are affected by the inaccuracy of the velocity model, limited acquisition geometry and the assumptions inherited by the location algorithm, among other factors. The issue becomes even more aggravated when only surface arrays are employed, where the geometry strongly favors the accuracy of epicentral location as opposed to depth location. The reported depth errors are sometimes comparable to a formation thickness or even the origin depth itself.
+
+The passive seismicity is often located using the P and S first breaks only. Finding additional features of the seismic signal that could be informative of its origin can be a first step towards constraining the depth uncertainty. Therefore, the purpose of this study was two-fold. First, we characterized the uncertainty in the event origin due to the inaccuracy in the effective velocity model. Using Monte-Carlo simulations for a given velocity model uncertainty, the event origin and the receiver array, we simulate the travel times at the stations and then relocate the event. We show that the presence of a low velocity zone (LVZ) can cause the non-uniqueness and a spread of the solution over a large depth range. This spread was found to depend on the scale of the velocity model uncertainty, whereas the epicenter of the event showed low sensitivity to velocity model perturbations. Subsequently, a wave number integration method was utilized to simulate the synthetic seismograms from the synthetic earthquakes spanning the depth range of 2-5km, covering LVZ. For a fixed focal mechanism and frequency content, we numerically generate a bank of waveforms corresponding to the virtual events with known locations. The bank is then divided into a training, cross-validation and test parts. A set of classifiers is trained to predict the event location with respect to LVZ based on arrival times and statistical features of the signal waveforms. We demonstrate that adding several features of the signal, descriptive of its origin can improve the location depth constraint, as opposed to using arrival times only as predictor variables.
+%
 \section*{Introduction}
-%Subsurface seismics investigations are aimed at obtaining instantaneous subsurface images. However,
-There is increasing interest in monitoring changes in the subsurface over time by means of repetitive (i.e. time-lapse) measurements. %what region of interest
-Reservoir seismology researchers have spent decades in developing 3D and 4D time-lapse imaging and inversion techniques using active sources and large sensor arrays. 
-The extraction of hydrocarbons or injection of water can cause deformation and induce microearthquakes which may interfere with the production process and cause societal concern. Monitoring these effects is increasingly important for optimal production and reservoir management. 
+The earthquake localization on a regional scale using inverse kinematic algorithms is still a problem requiring special attention. The on-surface seismic networks for monitoring induced seismicity provide a sufficient location accuracy for the earthquake hypocenter, but often offer very limited resolution in depth (\cite{eisner_uncertainties_2009}). For computational convenience and due to the lack of information, the velocity model used for location is often parametrized as a function of depth only. In some cases such an approximation is a very strong assumption, and it is important to consider several different possible 1D structures to test the sensitivity of the location to errors in the velocity model.
 
-%The technique is currently considered as a reliable option to isolate HLRW from the aquifers and the biosphere (\cite{alexander_mckinley,chapman_2003})
-%\quad A number of research projects worldwide investigates the application of non-intrusive seismic monitoring techniques of potential high-level radioactive waste (HLRW) repositories. HLRW are generally enveloped in engineered bentonite barriers and placed in the repository.
+The sparsely distributed on-surface instrumentation and insufficient azimuthal or vertical coverage can aggravate the location uncertainty due to the limited direction of the ray-paths it is able to receive (\cite{eisner_comparison_2010}). As a result, in the absence of downhole observations, the reported uncertainty of the depth location using on-surface array only may be comparable to the origin depth value itself, such that the location of the event becomes untrustworthy to the analyst. 
+
+On the other hand, in the daily industry practice the event origins are often derived based on the deterministic methods that use only 2 characteristic points (P- and S-wave arrivals) per sensor per event. The information transmitted by the event is obviously not limited to two-points only, and therefore should not be discarded when the location is performed. Improving event location can be done through finding informative features of the seismic signal that could help better constrain the location. 
 
 
-\quad Time-lapse imaging involves comparing snap-shot images taken over time, e.g. a section of the reservoir before and after gas injection. Waveform analysis may be applied to locate the areas of anomalous pressure or water saturation (\citet{manukyan_seismic_2012}). For example, research projects worldwide investigates the application of non-intrusive seismic monitoring techniques of potential high-level radioactive waste (HLRW) repositories. HLRW are generally enveloped in bentonite barriers. %unfinished sentence
-%Bentonite is a swelling clay that is used as the base material for the barriers as it forms an impermeable (hydraulic conductivity $k\sim10^{-14}$ m/s) seal between the HLRW and the host rock as it saturates (\cite{lajudie_clay-based_1994}). 
-The temperature ($T$), pressure, and water content ($W_{c}$) of bentonite is expected to increase dramatically over a few years after completion due to radioactive decay of HLRW, swelling of the clay and water saturation. As a results, the physical state is altered, which may jeopardize the integrity of the barrier (\citet{tisato_laboratory_2013}).%change to 'As a result, the physical state of betonite is altered which may jeorpidize the integrity of the material.'
-Seismic monitoring may serve as a non-intrusive tool to track the condition of the barrier.%may be 
-Regardless of application, a common requirement has to be satisfied: the difference in the recorded signals must be well discernible and reflect only the changes in the medium properties (\citet{marelli_appraisal_2010}). Therefore, numerical investigation of the procedure in the geometry of interest should be conducted and thoroughly analyzed to aid in design and optimization of the monitoring system.
+We start with a rigorous study of the effect of the uncertainty in the velocity model on the P- and S-wave travel time error. The ray-tracing method is employed to predict the time of the arrivals for the two phases at station location. The Monte-Carlo simulation is then performed with varying velocity model to estimate the mean and standard deviation of the arrival time. These values are consequently used as a proxy for an event's P- and S-wave arrival time uncertainties. Using non-linear location methods (\cite{lomax_precise_2001}), the arrival times from the Monte-Carlo simulations can be translated into spatial uncertainties and thus give an error estimate due to uncertainty in the velocity model, given an event location.
 
-%Numerical tools provide accurate results if calibrated with laboratory investigation. Thus, numerical modelling of the commonly used experimental techniques is of paramount importance for accurate interpretation of the results. In our previous investigation (\cite{abiryukov_2014}) we proposed a methodology to calibrate 2D numerical tools to yield synthetic traces, accurately reproducing the experimental results of ultrasonic wave propagation in the material of interest.
-%\quad Numerical tools provide accurate results if calibrated with laboratory results. Thus, numerical modelling of the common experimental techniques will be helpful for accurate interpretation of the results. In our previous investigation (\cite{abiryukov_2014}) we proposed a methodology to calibrate numerical tools to yield synthetic traces, accurately reproducing the experimental results of wave propagation in the material of interest.
-%\quad Signal characteristics depend on the media they travel through. Physical processes affecting the amplitudes have to be considered for better analysis. One of the major factors is called attenuation, and it depends on the physical properties of rock and its fluid content. Attenuation coefficient ($\frac{1}{Q}$) describe the wave amplitude decay while propagating in the rock. Higher $Q$ values correspond to less attenuation; low $Q$ corresponds to greater reduction in seismic amplitude. Shallow formations with large grains and high pore volume are characterized with higher attenuation. This is generally because the relative phase lag in motion of fluids and solids in the rock leads to loss of energy as the wave propagates. This type of energy loss accounts for attenuation and the amount of seismic $Q$ can assist us in monitoring. As high attenution greatly affect the signals' amplitudes and relative phases, it requires consideration during analysis that employs numerical modelling.
-\quad Signal characteristics depend on the media they travel through. One of the major factors, affecting the amplitudes, is called attenuation. It depends on the physical properties of rock and its fluid content. Higher values of attenuation coefficient ($\frac{1}{Q}$) correspond to greater reduction in seismic amplitude. As high attenution greatly affect the signals' amplitudes and relative phases, it has to be taken into account for better analysis that employs numerical modelling. 
-In this contribution, we numerically estimate the effective attenuation in bentonite as a function of $T$ and $W_{c}$ and show an example of how the variation of $W_{c}$ and $T$ affects the signal propagating through the repository.
 
-%It is also possible to monitor changes in the reservoir continuously. For example, the detection of small earthquakes produced by injection of fluids under high pressure can be used to monitor in situ stress changes in the reservoir. This approach can be used to detect and track changes in the reservoir due to subsurface CO₂ sequestration, gas storage, geothermal energy production, or mining activity. And with seismic interferometry it is now possible to measure minute changes in medium properties as a function of time (Figure 5).
+Subsequently, we simulate the synthetic seismograms from the virtual sources spanning the depth range of 2-5 km. A set of characteristic functions is applied to the resultant traces in order to extract features describing the origin. Later, a classification of the event location is carried out on two separate feature sets: (i) arrival times only and (ii) arrival times bundled with the signal features. With this comparison we highlight that the travel time data may be insufficient to constrain the origin of the event due to the velocity model accuracy while adding the waveform features has a potential to constrain the origin depth.
 
-%In the future, these modes of continuous monitoring will conceivably be done in, or near, real time, so that the information about changes in seismicity, in situ stress fields, and reservoir properties will be readily available at the finger tips of operators—thus providing a powerful control tool for reservoir management and optimization.
-
-\section*{Theory and Methods}
-\subsection*{Numerical setup}
-\citet{tisato_laboratory_2013} measured the longitudinal and transverse ultrasonic wave propagation velocities in bentonite as a function of $T$ and $W_{c}$, reproducing the conditions expected at a HLRW waste repository. Following the iterative procedure described in \citet{abiryukov_2014} we simulated the propagation of ultrasonic waves in a 2D numerical model representing the ultrasonic facility accomodating a bentonite sample (Figure \ref{fig:setup}). The viscoelastic parameters utilized for the materials are reported in Figure \ref{fig:setup} (\citet{lakes_viscoelastic_2009,auerkari_mechanical_1996,boyer_metals_1984}).
-\begin{wrapfigure}{r}{0.5\textwidth}
-\includegraphics[width=0.5\textwidth]{setup1_refl.png}
- \caption{(a) Schematic diagram of the ultrasonic apparatus employed in the experiments to measure $V_{p}$ and $V_{s}$ and used for iterative attenuation estimation (b) Material parameters used in the numerical simulations.The elastic moduli and density of bentonite vary with the temperature and its water content \citet{tisato_laboratory_2013}; therefore we provide the range of values for $V_{p}$, $V_{s}$, and $\rho$ that were assigned during attenuation estimation. (c) Normalized input signal sent to the emitter}
- \label{fig:setup}
- \end{wrapfigure}
-Running simulations with fixed $T$ and $W_{c}$ and varying attenuation for P- and S-waves in bentonite, we compare the numerical and experimental signals in search of the maximum overlap. The value of attenuation, corresponding to the best overlapping simulation, is then regarded as attenution, specific to the fixed values of $T$ and $W_{c}$.
-\subsection*{Attenuation modelling} 
-Here we define attenuation by the convention proposed by \cite{oconnell_measures_1978}:$\frac{1}{Q}=\frac{M_{i}}{M_{r}}$, where $M_{r}$ and $M_{i}$ are the real and imaginary parts of the complex modulus respectively.
-
-We used a ``generalized standard linear solid'' (GSLS) model (\cite{liu_velocity_1976}) to create the linear viscoelastic rheological model of bentonite samples. 
-The model (Figure \ref{fig:attenuation},b) is described by an optimization variable $\tau$ (\cite{blanch_modeling_1995}) and a set of relaxation frequencies $f_{1},f_{2},f_{3}$, representing each Maxwell body. The numerical solver attempts to find optimum parameters of the elements within a set frequency range. Optimum parameters minimize numerically the integrated deviation of the $\frac{1}{Q(f)}$ from the desired attenuation value thus providing the best approximation of a given constant $\frac{1}{Q}$-spectrum :
- \begin{equation}
- \int_{f_{1}}^{f_{2}} [\frac{1}{Q(f,f_{1},f_{2},f_{3},\tau)} - \frac{1}{Q^{'}}]^{2} df \longrightarrow \mathrm{min}
- \label{eq:att_minim}
- \end{equation}
-This optimization is performed for the desired $\frac{1}{Q}$ for both P- and S-waves. The resultant attenuation curve has a characteristic shape of multiple peaks in series, located at different relaxation frequencies (\ref{fig:attenuation}).
-%\begin{wrapfigure}{r}{0.98\textwidth}
-\begin{figure}
+\section*{Methods}
+\subsection*{Generalized workflow}
+\begin{wrapfigure}{R}{0.3\textwidth}
+\vspace{-4mm}
 \centering
-\includegraphics[width=0.8\textwidth]{fig_attenuation.png}
- \caption{(a) $\frac{1}{Q(f)}$ as a function of frequency approximates constant $Q=25$ in 1 kHz -- 1 MHz bandwidth. Note that the signal spectrum remains within the set frequency range at any cross section of the setup (only 4 are shown for clarity). (b) The mechanical representation of linear viscoelastic model (inlet) and corresponding dispersion of S-wave velocity.}
- \label{fig:attenuation}
-\end{figure}
-%% CORRECTED VELOCITY VERSUS APPARENT VELOCITY
-In the experimental framework, \cite{tisato_laboratory_2013} measured apparent S-wave velocities in bentonite samples at 100 kHz ($V_{s,apparent}$ in Figure \ref{fig:attenuation},b). In order to numerically propagate the signal at the correct velocity (i.e. measured apparent velocity), the input value for bentonite $V_{s}$ was corrected according to the dispersion curve and the dominant frequency of the signal. The $V_{s}(f)$ curve was interpolated within the attenuation frequency range with the input value corresponding to the lowest frequency in the range. The same procedure is then applied to the P-wave velocity model.
-\section*{Examples and Results}
-
-In this section we report the results: the estimation of attenuation in bentonite as a function of temperature and water content, and typical synthetic seismograms obtained simulating the propagation of elastic waves in an HLRW in which $T$ and $W_{c}$ of bentonite vary.
-\subsection*{Attenuation estimation}
-We employed the ultrasonic shear wave propagation data recorded for four bentonite samples (10\%, 20\%, 35\% and 52\% water-content) that were progressively heated in four steps of $10^{\circ}~\mathrm{C}$ from $30^{\circ}~\mathrm{C}$ to $70^{\circ}~\mathrm{C}$. Therefore, the values of attenuation for P- and S-waves were estimated on a $4\times5$ grid in the $W_{c}-T$ domain. For the first set of iterations the procedure revealed the location of the series of minima at $Q_{p} \in (9,30)$ and $Q_{s} \in (4,15)$. The second iteration refined the region by further discretization into $10\times10$ grid points. The procedure was then repeated for every node on $T-W_{c}$-grid. The resultant surface plots of quality factors are illustrated in Figure \ref{fig:qpqs}.
-\begin{wrapfigure}{r}{0.5\textwidth}
-\includegraphics[width=0.5\textwidth]{Qp_Qs.eps}
- \caption{Distribution of $Q_{p}$ and $Q_{s}$ in bentonite as a function of temperature and water content: interpolated $Q_{p}(T,W_{c})$ and $Q_{s}(T,W_{c})$ surface plots}
-  \label{fig:qpqs}
+\includegraphics[width=0.28\textwidth]{./AntonBiryukov_bibtex/VpVs.png}
+\vspace{-4mm}
+\caption{An example of the distribution of velocity profile used in the MC simulations. The color represents the values of PDF of the velocity distribution. Note the limited variation of the layer above LVZ due to the creation of the shadow zone.}
+\label{fig:vpvs}
 \end{wrapfigure}
-Our results clearly demonstrate that attenuation in bentonite at fixed temperature $T$ is strongly affected by the water content, with a presence of a distinct minimum at $W_{c}=20\%$. However, both quality factors tend to follow similar trend and show no significant variation with respect to temperature $T$ at fixed values of $W_{c}$. 
-\subsection*{Modified GTS framework simulations}
-\begin{figure}[htb]
-\centering
-\includegraphics[width=0.75\textwidth]{fig_testTOFF.png}
- \caption{(a) Schematic diagram of the tonnel cross section B and monitoring system, the viscoelastic parameters of the materials employed (Table) and (b) seismograms, corresponding to modelled bentonite physical conditions (cases).The receivers are indicated as black triangles, the source location is shown in red diamond. The table summarizes the viscoelastic parameters that were assigned to bentonite on a case-by-case basis. Seismic traces are colored based on the physical conditions (modeling case) they refer to.}
-  \label{fig:tunnel_off}
+This report is particularly focused on estimating the depth error due to the velocity model uncertainty. That is, we want to evaluate the jitter in the hypocenter location due to inaccuracy in the approximation of the true velocity model as a 1D layered cake model derived from $V_{p}$ and $V_{s}$ logs. Specifically, we would like to simulate the travel times from many virtual events with a fixed origin but variable velocity model. These travel times are then used for relocating the events, that should potentially result in a cloud centered at the origin. The spatial dimensions and the shape of the cloud can give a quantitative insight into how sufficient the 1D velocity model assumption might be for a particular region and acquisition geometry. Therefore, the general workflow can be summarized in several key steps as follows: (i) determine the background (expected) velocity model from the sonic logs, (ii) carry out Monte-Carlo (MC) simulations for the travel time sets in a perturbed velocity model for an event with a fixed origin, (iii) locate the event corresponding to the set using background velocity model,
+and (iv) analyze the PDF of the obtained distribution.
+
+\subsection*{Monte - Carlo travel time simulations}
+
+As no anisotropy or 2D elastic profile information was available, the baseline velocity model was approximated as a 1D laterally homogeneous layered medium. The elastic parameters for the layers were derived from the sonic wellbore logs. The velocity uncertainty in this study is modeled through applying a random normal perturbation of $V_{p}$ and $V_{s}$ within a layer, while keeping the thickness of the layers constant. The standard deviation of the perturbation is a fraction of the velocity value within the layer. An example of the velocity profile distribution with the 6\% standard deviation is shown in Figure \ref{fig:vpvs}, with color showing the probability density function (PDF) for the values of $V_{p}$ and $V_{s}$ within the layer. In the case of a 1D layered medium the classic seismic ray theory can produce an exact solution at a very low computational cost. Therefore, a Python-based implementation of a ray tracing method was chosen as a best fit-for-purpose method.
+
+
+%It is important to notice that for some of the MC realizations the travel times for all four stations were not available due to the strong velocity contrast created at 3200 meter depth. The presence of the contrast caused significant reflection leading to shadowing of the direct P-phase at larger offsets, and as such the realizations were discarded from the analysis. That effect is visible in the Figure \ref{fig:vpvs} by a limited accepted variation of $V_{p}$ within the layer at 2500 - 3200 meters depth.
+
+\subsection*{Event origin location} % Mention somewhere in discussion / intro the comparison between Linearized and DIRECT SEARCH!!!!!!!!!!!!!!!!!!!!!
+In the case of a limited recording geometry and a velocity model with sharp horizontal interfaces, a probabilistic direct global-search procedure was shown to outperform the linearized location methods and adequately determine the complete location PDF of the event, converging to a global maximum (\citet{lomax_earthquake_2009}). Therefore, we opted for employing the probabilistic, non-linear, global-search earthquake location algorithm implemented in the NonLinLoc software \cite{lomax_precise_2001}.
+
+%The NonLinLoc program outputs a misfit function, an estimate of the posterior PDF for the spatial hypocenter location, and other results using stochastic, Metropolis-Gibbs sampling approach. The errors in the phase time picks and in the forward problem (travel-time calculation) are assumed to be Gaussian. This assumption allows for the analytic calculation of a maximum likelihood origin time given the observed arrival times and the calculated travel times between the observing stations and a point in space. To achieve efficiency for complicated, 3D models, the travel-times between each station and all nodes of the spatial grid are calculated once and then stored on disk as travel-time grid files.
+
+%The algorithm searches the grids to find the best-fitting set of travel-times that would approximate the observed travel times for an event. In these simulations we use only local four stations, and utilize both P and S picks for each station, a total of 8 travel times. The spatial volume used for grid-search or Metropolis-Gibbs location must be fully contained within the 3D travel-time grids. This limits the largest station distance that can be used for location since the 3D travel-time computation and the size of the output time-grid files grow rapidly with grid dimension.
+\subsection*{Synthetic waveform modeling}
+The synthetic waveforms used for event origin classification were produced using the wavenumber integration method implemented in CPS suite (\cite{herrmann_computer_2013}). For the particular case of 1D layered homogeneous media, CPS allows one to obtain the full waveforms from the source much quicker than 2D FD methods commonly used for similar purposes. For each of the source-receiver pairs simulated in the model we generate a database of Green's functions. The Green's functions are then convolved with the source wavelet of the given dominant frequency $f=2.5$ Hz and a given moment tensor $M_{i,j}$ corresponding to a pure explosive source (identity matrix). To achieve variability in the signal waveforms and mimic realistic amplitude uncertainty, the moment tensor was perturbed with a Gaussian noise:
+\begin{equation}
+ M_{i,j} = 1 + \aleph_{i,j}(0,\sigma_{m}),
+\end{equation}
+where $\sigma_{m} = 0.1$ is the standard deviation of the perturbation. Subsequently, a set of features is extracted from the waveforms in order to bring more information about the origin of the signal. Prior to the feature extraction, the signals are all normalized to a unit amplitude. We then obtained the envelope of the signal on the vertical channel using Hilbert transform and chose the following features as the proxy:
+\begin{itemize}
+ \item kurtosis of the signal envelope - to show the peaked-ness of the signal and discern between signals with strong and weak multiple reflections,
+ \item mean value of the envelope,
+ \item standard deviation of the envelope - to show the variability in the envelope,
+ \item area under the envelope,
+ \item the ratio of the signal energy contained between $t_{p}$ and $t_{s}$ with respect to the whole trace
+ \item number of zero-crossings of the envelope derivative - to count the number of local extrema of the envelope
+\end{itemize}
+
+The procedure of modeling and feature extraction is then repeated over the set of values for the moment tensor $M_{i,j}$ and locations covering the range of 2000-5000 meters, thus creating an large dataset for the subsequent classification.
+\subsection*{Signal classification}
+\begin{figure*}[htb]
+\begin{center}
+\includegraphics[width=0.7\linewidth,angle=0]{./AntonBiryukov_bibtex/classes.png}
+\end{center}
+\vspace{-4mm}
+\caption{An illustration of the signal classification concept. The signals originating from the locations on the grid (a) are then transformed into a feature space and labeled by the class containing the event origin.}
+\label{fig:classes}
+\end{figure*}
+The concept of the classification is briefly illustrated in Figure \ref{fig:classes}. The zone of interest is first meshed into nodes that can host virtual sources. The signal from an event originating at a node is transformed into the feature space and is labeled according to the location of the grid. The signal database has been divided into 3 classes by the origin depth of the event: (i) above LVZ, (ii) within LVZ, and (iii) below LVZ. The positions were marked according to their relative location with respect to the LVZ as demonstrated in Figure \ref{fig:foxcreek_classes}. For each position of the virtual source 150 simulations with different values of $M_{i,j}$ were carried out. The database was later split into the training (70\% of the total data) and the test datasets (30\% of the total). 
+
+\begin{figure}[b!]
+\begin{center}
+\includegraphics[width=0.3\linewidth,angle=0]{./AntonBiryukov_bibtex/figure_foxcreek_classes.png}
+\end{center}
+\vspace{-4mm}
+\caption{The relative virtual source-receiver locations for the classification experiment. The colorscale indicates which class an event belongs to.}
+\label{fig:foxcreek_classes}
 \end{figure}
 
-As we evaluated the attenuation properties of bentonite under variable physical conditions, we modelled active seismic monitoring procedure in the modified framework of the GTS experiment. To represent the evolution of bentonite's physical conditions, we chose six cases - combinations of $T$ and $W_{c}$ (Figure \ref{fig:qpqs}). The setup follows the description of the site monitoring system described in \cite{marelli_appraisal_2010}. The seismic energy was released in a form of 3 kHz center frequency Ricker P-wave explosion and recorded by the acquisition system (Figure \ref{fig:tunnel_off}). The geometry of cross section of the tunnel (Figure \ref{fig:tunnel_off}), the relative source and receivers positions, and the results of corresponding numerical simulations are provided in Figure \ref{fig:tunnel_off}, respectively. 
-%\begin{wrapfigure}{r}{0.5\textwidth}
-\section*{Conclusions}
-Similarity in $Q_{p}$ and $Q_{s}$ behavior (i.e. the overall trend and minimum location) suggests that attenuation mechanisms responsible for P- and S-wave dissipation are likely to be similar and exhibit minor variation due to $T$ in the range of $30^{\circ}$-$70^{\circ}$ C. The magnitude of the variation might also indicate that bentonite's intrinsic structure does not experience significant changes due to temperature increase in the said range compared to the changes caused by water content increase. Consequently one may observe minimal discrepancies in the first arrivals between seismograms, recorded at fixed $W_{c}$ with variable $T$ (compare Case III versus Case VI, or Case I versus Case V), than recorded at fixed $T$ with variable $W_{c}$ (compare Case I and Case VI). The coda of the signal, however, shows satisfactory variation among the modelled cases.
+A set of classification algorithms was trained on the training data in order to predict the focal depth of the event (its class) given a set of features of an event of interest from the test data. Therefore, a comparison of prediction accuracy was done between a non-generalizing algorithm - K-nearest-neighbors (\cite{cover_nearest_1967}), and linear classifiers - logistic regression (\cite{jr_applied_2004}) and Support Vector Classifier (\cite{suykens_least_1999}). The output results of the classification can be interpreted in several ways. Here we limit ourselves to the interpretation of the confusion matrix. The elements of the confusion matrix $c_{i,j}$ show the number of observations from class $i$ predicted into class $j$. As a result, non-zero off-diagonal elements indicate the number of mislabeled observations, whereas the diagonal elements indicate the number of correctly predicted observations.
+\section*{Results}
+\subsection*{Origin uncertainty estimation}
+The origin depth uncertainty was estimated for the 1\% and 6\% velocity perturbation. For both simulations the true location of the event was set to $(X,Y,Z) = (4000,6000,3910)$. The location centroids of MC simulated events for the two models are shown in Figure \ref{fig:sigma1} and Figure \ref{fig:sigma6}, respectively.In both cases the X and Y coordinates of the event are centered at their true values. The depth of the event is centered 240 meters above the true focal depth in the case of 1\% model. In the 6\% model case the event depth shows a bi-modal distribution, with stronger mode centered 240 meters above the depth. The weaker mode, however tends to center around the true depth of the event. The standard deviation of the depth shows a noticeable increase as the velocity perturbation increases.
+\begin{figure*}[htb]
+\begin{center}
+\includegraphics[width=0.6\linewidth,angle=0]{./AntonBiryukov_bibtex/Figure1_1pct.png}
+\end{center}
+\vspace{-4mm}
+\caption{The results of the location of 1\% velocity perturbation Monte-Carlo simulated virtual events describing the true event at $(X,Y,Z) = (4000,6000,3910)$. The receivers are shown in black triangles, the virtual event centroids - in orange circles.}
+\label{fig:sigma1}
+\end{figure*}
+
+\begin{figure*}[htb]
+\begin{center}
+\includegraphics[width=0.6\linewidth,angle=0]{./AntonBiryukov_bibtex/Figure1_6pct.png}
+\end{center}
+\vspace{-4mm}
+\caption{The results of the location of 6\% velocity perturbation Monte-Carlo simulated virtual events describing the true event at $(X,Y,Z) = (4000,6000,3910)$. The receivers are shown in black triangles, the virtual event centroids - in orange circles.}
+\label{fig:sigma6}
+\end{figure*}
+
+\subsection*{Signal origin classification results}
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.75\linewidth,angle=0]{./AntonBiryukov_bibtex/figure_map_a.png}
+\end{center}
+\vspace{-4mm}
+\caption{The distribution of induced seismicity in Fox Creek area for the events of winter 2015. The central cluster modeled in this study is shown in cyan.}
+\label{fig:map_clusters}
+\end{figure}
+
+The classification has been carried out on the database of 90 different earthquake origins distributed uniformly along the depth range of 2-5km and covering the area around the central Fox Creek seismicity cluster as shown in Figure \ref{fig:map_clusters}. Here we limit ourselves to a three-class classification based on the proximity of the origin to the LVZ as indicated by the color of the event origin in Figure \ref{fig:foxcreek_classes}.
+The classification has been carried out for two feature sets: (A) the travel times for P- and S-phases at each station (a total of 8 features) and (B) the features from A bundled with the signal features extracted from the vertical channels as described in Methods section. The confusion matrices for the optimally set-up classifiers are shown in Figure \ref{fig:confusion}. One may see that KNN being a non-generalized method shows a better performance compared to SVC and logistic regression for both feature sets (89\% vs 85\% and 86\% for A, and 98\% vs 95\% and 95\% for B, respectively). The linear classifiers, while exhibiting slightly lower accuracy, are easier to generalize for the future study and do not require storing the dataset in the memory for future application.
+%Therefore, the loss in the accuracy might be motivated by the win in the general applicability, which makes both SVC and logistic regression good candidates for the future study.
+The accuracy values shown in Figure \ref{fig:confusion} suggest that the added features indeed carry valuable information about the event origin, and consistently contribute towards an increase of in average 10\% in the accuracy of the classification.
+\begin{figure}[htb]
+\begin{center}
+\includegraphics[width=0.55\linewidth,angle=0]{./AntonBiryukov_bibtex/Figure_confusion_horiz.png}
+\end{center}
+\vspace{-4mm}
+\caption{The summary of the classification done with KNN, logistic regression and SVC. The matrices show the proportion between the true and predicted labels on the test dataset.}
+\label{fig:confusion}
+\end{figure}
+
+\section*{Discussion}
+% TO DISCUSSION
+As noticed earlier in the Results section, the distribution of the origin depth in the Monte-Carlo simulations shows two distinct modes - 240 metes above the true origin and at a true origin depth. On one hand, this might be the consequence of the surface acquisition geometry resulting in predominantly near-vertical ray-paths at the surface layer, as opposed to the downhole arrays. On the other hand, it might be caused by the limited and only positive variation allowed for the layer above the LVZ due to the P phase shadowing for farther offset stations.
+
+Due to its location with respect to the array, the central cluster is characterized with lower values of horizontal location error compared to other clusters (Figure \ref{fig:map_clusters}). However, as seen from the error distribution, the depth of the location is still poorly constrained for the central cluster and in some cases exceeds 500 m. Our results from the MC simulations suggest that an error in depth of this magnitude is quite realistic as it reasonably agrees with the predicted depth error for the event at approximately the cluster depth. Therefore, the 6\% velocity variation within the layers can be a fair estimate of effective velocity model uncertainty when analyzing the effects of the unknown velocity models.
+%It is also important to mention that the location was done here using the grid-search method. The estimates of the uncertainty are likely to change when a different method is used. The choice of the method here was motivated by the presence of a sharp velocity contrast, which often prevents the linearized methods from converging to a global minimum (\cite{lomax_earthquake_2009}).  
 
 
-The first arrivals recorded by receiver \#9 and \#10 (Figure \ref{fig:tunnel_off}) are $\sim 10$ times lower than those recorded by receivers \#3 and \#4. However, a relatively strong event is observed shortly after, located around $3-4.5$ ms. This arrival corresponds to a wave train passing through the interior of the tunnel and is therefore delayed and attenuated. The proximity of the receiver to the line passing through the source and the center of symmetry results into a higher recorded amplitude and subsequently higher signal-to-noise ratio (compare receivers \#9 and \#10, Figure~\ref{fig:tunnel_off}). Since the difference in traces at the time interval is reflected both by the decay amplitude and the phase shift between peaks, we suggest favoring this informative part of the signal over the first arrivals during the analysis employing the in-barrier receivers. 
+%The background velocity model for this study was derived from the sonic log by dividing the measured interval into 6 layers and has not been calibrated. Such a division was based on one person's perception of averaging and layering. While for this particular region, setup and problem it might have been a satisfying approximation, it may not generalize well on the others. Therefore, more attention should be paid towards devising a robust method of velocity profile estimation. One of such methods could be the Reversible Jump Monte-Carlo Markov chain, that could treat the number of layers and values within as unknown and try to fit the step-like function that best explains the variation within the $V_{p}$ or $V_{s}$ log (\cite{sambridge_monte_2002},\cite{bodin_seismic_2009}).
 
 
-% SUGGEST PLACING SOURCES INSIDE THE TUNNEL
-The distance between the source and the receiver is an important factor that affects the quality of the postclosure surveillance (\cite{marelli_appraisal_2010,manukyan_seismic_2012}). The higher the fraction of the bentonite component in the total travel path, the more pronounced become the differences in the recorded signals. One of the ways to achieve the maximum fraction of the bentonite component in the total travel path of the signal is to place the seismic source inside the tunnel. This will force the seismic energy to travel a substantial distance in the tunnel. As a result, the first arrivals registered in the host rock, will be affected by bentonite attenuation, facilitating the waveform comparison.
+It was somewhat expected to notice an increase in the accuracy of the origin depth prediction using the feature set with signal properties compared to the travel-time based prediction only. Although we cannot yet provide a solid ground for selecting optimal signal properties, the choice of the particular features is rather logical. The energy transmitted by the signal, as well as the interbed reflection arrival times and amplitudes wound vary as the function of the event origin. Therefore, it is rational to experiment with the quantities of the signal sensitive to these phenomena. The classification approach demonstrated here is by no means exhaustive, and more work needs to be done in this potentially promising topic.
 
+
+%Given the low values of hypocenter uncertainties, a possible continuation of the work could be towards discretization the depth range and running an N-class classification, where N is the number of classes that would represent possible zones of signal clustering. Alternative route could be relating the signal waveforms to the physics that caused it, e.g. classification between natural earthquakes and mining blasts.
+
+
+%Finally, the long-term goal of the study is to apply the classification approach to the real data, and combine the real and synthetic datasets together to form a learning database. The success of this combination is based on many factors, including, but not limited to similarity of the synthetics to real data in the feature space, and the accuracy of the ground truth. Therefore, more research needs to be done in choosing the suitable set of signal features. The appropriate feature space would be the one where the real and the synthetic transformed data would have a significant overlap, suggesting that one is likely to represent the other. Devising such a feature space seems challenging, and needs to be addressed in case the inference needs to be done based on very limited real data. The accuracy of the ground truth is also of paramount importance since the lack of it may lead to prediction of erroneous results due to learning from the erroneous data. However, unlike the previous problem, this issue seems tractable in the cases when both downhole and surface seismic data might be available.
+%\section*{Conclusions}
+%The purpose of this study was two-fold. First we analyzed the effect of the unknown velocity model on the uncertainty of the event origin depth when located using on-surface arrays with limited coverage in Fox Creek area. Our results show that for 6\% uncertainty in the velocity model we may expect up to 800 m of the depth error after the location is performed. The hypocenter of the event shows close to no variation compared to the focal depth variation, as expected given the on-surface acquisition geometry with sufficient azimuthal coverage. The scale of the error implies that the centroid of the event might be placed in two different formations, which can hinder the interpretation and might lead to erroneous conclusions.
+
+%Second, we experimented with several classification methods to determine whether features extracted from the signal can improve the accuracy of our location in a simple framework. We analyzed and compared the results of the classification of the event origin position with respect to the LVZ using travel times only versus travel times and the signal properties extracted from the vertical channels. Our results indicate that in the case of limited acquisition geometry the waveform features can be helpful in improving the accuracy of the origin depth prediction. 
 \section*{Acknowledgments}
-The authors would like to express gratitude to Simon Harvey of the University of Toronto's Civil Engineering Departments for his suggestions and revisions. 
-\newpage
-\bibliography{/home/antonb/LaTeX/biblo.bib}
+%
+The author would like to thank the sponsors of the Microseismic Industry Consortium for financial support.
+
+\bibliography{./AntonBiryukov_bibtex/bibloSponsors.bib}
 \bibliographystyle{plainnat}
 \end{document}
 
