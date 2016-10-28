@@ -1,0 +1,79 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citeauthoryear{Bodin and
+  Sambridge}{2009}]{bodin_seismic_2009}
+Bodin, T., and Sambridge, M., Stanford Exploration Project Report 2009, Seismic
+  tomography with the reversible jump algorithm: Geophysical Journal
+  International, {\bf 178}, no. 3, 1411--1436.
+
+\bibitem[\protect\citeauthoryear{Cerjan \bgroup et al.\egroup
+  }{1985}]{cerjan_nonreflecting_1985}
+Cerjan, C., Kosloff, D., Kosloff, R.,  and Reshef, M., 1985, A nonreflecting
+  boundary condition for discrete acoustic and elastic wave equations:
+  GEOPHYSICS, {\bf 50}, no. 4, 705--708.
+
+\bibitem[\protect\citeauthoryear{Chapman}{2004}]{chapman_fundamentals_2004}
+Chapman, C., 2004, Fundamentals of seismic wave propagation: Cambridge
+  University Press.
+
+\bibitem[\protect\citeauthoryear{Cover and Hart}{1967}]{cover_nearest_1967}
+Cover, T., and Hart, P., 1967, Nearest neighbor pattern classification: IEEE
+  Transactions on Information Theory, {\bf 13}, no. 1, 21--27.
+
+\bibitem[\protect\citeauthoryear{Eisner \bgroup et al.\egroup
+  }{2009}]{eisner_uncertainties_2009}
+Eisner, L., Duncan, P.~M., Heigl, W.~M.,  and Keller, W.~R., 2009,
+  Uncertainties in passive seismic monitoring: The Leading Edge, {\bf 28}, no.
+  6, 648--655.
+
+\bibitem[\protect\citeauthoryear{Eisner \bgroup et al.\egroup
+  }{2010}]{eisner_comparison_2010}
+Eisner, L., Hulsey, B.~J., Duncan, P., Jurick, D., Werner, H.,  and Keller, W.,
+  Stanford Exploration Project Report 2010, Comparison of surface and borehole
+  locations of induced seismicity: Comparison of surface and borehole
+  locations: Geophysical Prospecting, {\bf 58}, no. 5, 809--820.
+
+\bibitem[\protect\citeauthoryear{Herrmann}{2013}]{herrmann_computer_2013}
+Herrmann, R.~B., 2013, Computer {Programs} in {Seismology}: {An} {Evolving}
+  {Tool} for {Instruction} and {Research}: Seismological Research Letters, {\bf
+  84}, no. 6, 1081--1088.
+
+\bibitem[\protect\citeauthoryear{Jr and Lemeshow}{2004}]{jr_applied_2004}
+Jr, D. W.~H., and Lemeshow, S., 2004, Applied {Logistic} {Regression}: John
+  Wiley \& Sons.
+
+\bibitem[\protect\citeauthoryear{Kennett}{2001}]{kennett_seismic_2001}
+Kennett, B. L.~N., 2001, The seismic wavefield: Volume 1, introduction and
+  theoretical development: Cambridge University Press.
+
+\bibitem[\protect\citeauthoryear{Lomax \bgroup et al.\egroup
+  }{2001}]{lomax_precise_2001}
+Lomax, A., Zollo, A., Capuano, P.,  and Virieux, J., 2001, Precise, absolute
+  earthquake location under {Somma}--{Vesuvius} volcano using a new
+  three-dimensional velocity model: Geophysical Journal International, {\bf
+  146}, no. 2, 313--331.
+
+\bibitem[\protect\citeauthoryear{Lomax \bgroup et al.\egroup
+  }{2009}]{lomax_earthquake_2009}
+Lomax, A., Michelini, A.,  and Curtis, A., 2009, {Earthquake} {Location} ,
+  {Direct}, {Global}-{Search} {Methods}: Encyclopedia of {Complexity} and
+  {Systems} {Science},  2449--2473.
+
+\bibitem[\protect\citeauthoryear{Sambridge and
+  Mosegaard}{2002}]{sambridge_monte_2002}
+Sambridge, M., and Mosegaard, K., Stanford Exploration Project Report 2002,
+  Monte {Carlo} {Methods} in {Geophysical} {Inverse} {Problems}: Reviews of
+  Geophysics, {\bf 40}, no. 3, 1009.
+
+\bibitem[\protect\citeauthoryear{Suykens and
+  Vandewalle}{1999}]{suykens_least_1999}
+Suykens, J.~A., and Vandewalle, J., 1999, Least squares support vector machine
+  classifiers: Neural processing letters, {\bf 9}, no. 3, 293--300.
+
+\bibitem[\protect\citeauthoryear{Verschuur \bgroup et al.\egroup
+  }{1992}]{verschuur_adaptive_1992}
+Verschuur, D.~J., Berkhout, A.~J.,  and Wapenaar, C. P.~A., 1992, Adaptive
+  surface-related multiple elimination: Geophysics, {\bf 57}, no. 9,
+  1166--1177.
+
+\end{thebibliography}

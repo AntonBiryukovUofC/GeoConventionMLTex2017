@@ -1,0 +1,151 @@
+%-------------------------------------------------------------------------------
+%   LATEX SOURCE FILE
+%-------------------------------------------------------------------------------
+\documentclass[twocolumn,letterpaper,10pt,twoside]{jwreport}
+%
+% The class jwreport is a copy of report.cls, altered so that chapters,
+% sections etc appear in SS font
+%
+%   Packages
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{epsfig}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{datetime}
+\usepackage{natbib}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage[ansinew]{inputenc}
+%\usepackage{psfrag}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{subfigure}
+\usepackage[active]{srcltx}  %SRC Specials for inverse DVI search
+% references by chapter
+\usepackage{chapterbib}
+% use include{chapter} instead input{chapter.tex}
+\usepackage{float} % place figure h!
+\usepackage{cancel} %
+%\usepackage[dvipdfm]{hyperref} % introducing cross reference in labels.
+\usepackage{hyperref} % introducing cross reference in labels.
+\usepackage{epstopdf}
+\renewenvironment{enumerate}%
+  {\begin{list}{\arabic{enumi}.}%
+     {\topsep=0in\itemsep=0in\parsep=0in\partopsep=0in\usecounter{enumi}}%
+   }{\end{list}}
+\usepackage{url}
+
+%  Page layout options
+\pagestyle{fancy}
+%  Margins
+\pdfpagewidth 8.5in
+\pdfpageheight 11in
+\setlength\topmargin{-.55in} % original size -.55
+\setlength\headheight{0.5in}
+\setlength\headsep{0.5in}
+\setlength\textheight{8.8in}
+\setlength\textwidth{6.5in}
+\headwidth=6.5in
+\setlength\oddsidemargin{0.1in}
+\setlength\evensidemargin{-.1in}
+\setlength\headheight{40pt}
+\setlength\headsep{0.5in}
+
+\parindent=0.0in
+
+\font\ninerm=cmr9
+\font\tenrm=cmr10
+\font\sevrm=cmr7
+% Set up sans-serif etc
+\renewcommand{\footrulewidth}{0.0pt}
+\renewcommand{\headrulewidth}{0.0pt}
+\renewcommand{\chaptermark}[1]{%
+\markboth{\MakeUppercase{%
+\chaptername}\ \thechapter:%
+\normalfont\normalsize\sffamily\slshape\ #1}{}}
+\lhead{}
+\rhead{}
+\lfoot{}
+\cfoot{\sf \fancyplain{\thepage}{\thepage}}
+%\rfoot{Draft version: \ampmtime~\ddmmyyyydate \today}
+\rfoot{}
+\chead{}
+% Set up referencing
+\bibpunct{(}{)}{;}{a}{,}{;}
+\renewcommand\bibname{References}
+\renewcommand\bibsection{\section{\refname}} % make references a section*
+
+% set up equation/figure numbering
+\setcounter{secnumdepth}{3} % number untill subsubsection!!!
+%%
+%\renewcommand{\thechapter}{\Roman{chapter}}
+%\renewcommand{\theequation}{\thesection.\arabic{equation}}
+\renewcommand{\thetable}{\arabic{table}}
+\renewcommand{\thefigure}{\arabic{figure}}
+%%
+%\usepackage{pdfpages}  % full cover page
+% Extra hyphenation list
+\hyphenation{aniso-tropy aniso-tropic micro-seismic}
+
+%-------------------------------------------------------------------------------
+%   Definitions                     % set report year and volume
+%-------------------------------------------------------------------------------
+\newcommand{\thereportyear}{2016} % used in all Chapters
+\newcommand{\thereportvolume}{7}
+
+%-------------------------------------------------------------------------------
+%   Document body
+%-------------------------------------------------------------------------------
+\begin{document}
+%
+%
+\baselineskip=20pt
+%
+%-----------------------------------------------------------------------
+%   TITLE PAGE
+%-----------------------------------------------------------------------
+%
+%\includepdf{2013cover.pdf}
+\newpage\thispagestyle{empty}
+\cleardoublepage
+\include{title}
+\newpage\thispagestyle{empty}
+~\\
+%\cleardoublepage
+%----------------------------
+%  PREAMPLE
+%----------------------------
+\pagenumbering{roman}
+\setcounter{page}{0}
+%\include{./sponsors} % inclde sponsors page with logos final compilation
+%\cleardoublepage
+%
+\tableofcontents
+\cleardoublepage
+%-----------------------------------------------------------------------
+%   CHAPTERS
+%-----------------------------------------------------------------------
+\baselineskip=12pt % 12 pts line spacing in 2014 template
+\parindent = 18pt
+%
+\setcounter{page}{0}
+\pagenumbering{arabic}%
+%\input{overview.tex} % outline chapter commented
+%\cleardoublepage
+
+\part{UofC}
+%\input{your_chapter_bibitem/your_chapter.tex} 
+\cleardoublepage
+\input{AntonBiryukov_bibtex/AntonBiryukov_chapter.tex}  
+\cleardoublepage
+%
+%\thispagestyle{empty}
+\rhead[]{\em References}
+\lhead[\em References]{}
+%\addcontentsline{toc}{chapter}{References}
+%\bibliographystyle{seg} 
+%\bibliography{example} 
+\end{document}

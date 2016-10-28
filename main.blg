@@ -1,0 +1,60 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: main.aux
+A level-1 auxiliary file: title.aux
+The style file: seg.bst
+Database file #1: ./AntonBiryukov_bibtex/bibloSponsors.bib.bib
+Warning--string name "aug" is undefined
+--line 35 of file ./AntonBiryukov_bibtex/bibloSponsors.bib.bib
+Warning--string name "nov" is undefined
+--line 46 of file ./AntonBiryukov_bibtex/bibloSponsors.bib.bib
+Warning--string name "nov" is undefined
+--line 75 of file ./AntonBiryukov_bibtex/bibloSponsors.bib.bib
+Warning--string name "jul" is undefined
+--line 83 of file ./AntonBiryukov_bibtex/bibloSponsors.bib.bib
+Warning--string name "jan" is undefined
+--line 115 of file ./AntonBiryukov_bibtex/bibloSponsors.bib.bib
+Warning--string name "oct" is undefined
+--line 123 of file ./AntonBiryukov_bibtex/bibloSponsors.bib.bib
+You've used 14 entries,
+            2832 wiz_defined-function locations,
+            770 strings with 7975 characters,
+and the built_in function-call counts, 5369 in all, are:
+= -- 549
+> -- 224
+< -- 1
++ -- 76
+- -- 74
+* -- 521
+:= -- 839
+add.period$ -- 14
+call.type$ -- 14
+change.case$ -- 93
+chr.to.int$ -- 14
+cite$ -- 14
+duplicate$ -- 189
+empty$ -- 410
+format.name$ -- 93
+if$ -- 1093
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 17
+newline$ -- 45
+num.names$ -- 42
+pop$ -- 55
+preamble$ -- 1
+purify$ -- 107
+quote$ -- 0
+skip$ -- 168
+stack$ -- 0
+substring$ -- 361
+swap$ -- 35
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 100
+warning$ -- 0
+while$ -- 50
+width$ -- 15
+write$ -- 153
+(There were 6 warnings)
