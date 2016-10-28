@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.9.10)  28 OCT 2016 16:55
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.9.10)  28 OCT 2016 17:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -424,33 +424,40 @@ LaTeX Font Info:    Font shape `T1/ua1/bx/n' in size <14.4> not available
 LaTeX Font Info:    Font shape `T1/ua1/b/n' will be
 (Font)              scaled to size 13.67995pt on input line 105.
 LaTeX Font Info:    Font shape `T1/ua1/m/n' will be
-(Font)              scaled to size 8.54997pt on input line 119.
+(Font)              scaled to size 8.54997pt on input line 118.
 LaTeX Font Info:    Font shape `T1/ua1/m/it' will be
-(Font)              scaled to size 8.54997pt on input line 119.
+(Font)              scaled to size 8.54997pt on input line 118.
  [1
 
 {/home/anton/.texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./header.png>]
 LaTeX Font Info:    Font shape `T1/ua1/m/n' will be
-(Font)              scaled to size 11.39996pt on input line 127.
+(Font)              scaled to size 11.39996pt on input line 122.
 LaTeX Font Info:    Font shape `T1/ua1/bx/n' in size <12> not available
-(Font)              Font shape `T1/ua1/b/n' tried instead on input line 127.
+(Font)              Font shape `T1/ua1/b/n' tried instead on input line 122.
 LaTeX Font Info:    Font shape `T1/ua1/b/n' will be
-(Font)              scaled to size 11.39996pt on input line 127.
+(Font)              scaled to size 11.39996pt on input line 122.
 
 <./AntonBiryukov_bibtex/VpVs.png, id=13, 239.9364pt x 294.8616pt>
 File: ./AntonBiryukov_bibtex/VpVs.png Graphic file (type png)
 
 <use ./AntonBiryukov_bibtex/VpVs.png>
-Package pdftex.def Info: ./AntonBiryukov_bibtex/VpVs.png used on input line 131
+Package pdftex.def Info: ./AntonBiryukov_bibtex/VpVs.png used on input line 126
 .
 (pdftex.def)             Requested size: 143.67226pt x 176.56737pt.
 LaTeX Font Info:    Font shape `T1/ua1/m/n' will be
-(Font)              scaled to size 7.59998pt on input line 133.
+(Font)              scaled to size 7.59998pt on input line 128.
 LaTeX Font Info:    Font shape `T1/ua1/bx/n' in size <8> not available
-(Font)              Font shape `T1/ua1/b/n' tried instead on input line 133.
+(Font)              Font shape `T1/ua1/b/n' tried instead on input line 128.
 LaTeX Font Info:    Font shape `T1/ua1/b/n' will be
-(Font)              scaled to size 7.59998pt on input line 133.
+(Font)              scaled to size 7.59998pt on input line 128.
  [2 <./AntonBiryukov_bibtex/VpVs.png>]
+<./AntonBiryukov_bibtex/classes.png, id=21, 1066.12704pt x 264.79729pt>
+File: ./AntonBiryukov_bibtex/classes.png Graphic file (type png)
+
+<use ./AntonBiryukov_bibtex/classes.png>
+Package pdftex.def Info: ./AntonBiryukov_bibtex/classes.png used on input line 
+154.
+(pdftex.def)             Requested size: 359.18063pt x 89.20966pt.
 LaTeX Font Info:    Try loading font information for OMS+ua1 on input line 161.
 
 LaTeX Font Info:    No file OMSua1.fd. on input line 161.
@@ -460,37 +467,23 @@ LaTeX Font Warning: Font shape `OMS/ua1/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
 (Font)              for symbol `textbullet' on input line 161.
 
-<./AntonBiryukov_bibtex/classes.png, id=20, 1066.12704pt x 264.79729pt>
-File: ./AntonBiryukov_bibtex/classes.png Graphic file (type png)
 
-<use ./AntonBiryukov_bibtex/classes.png>
-Package pdftex.def Info: ./AntonBiryukov_bibtex/classes.png used on input line 
-173.
-(pdftex.def)             Requested size: 359.18063pt x 89.20966pt.
-
-<./AntonBiryukov_bibtex/figure_foxcreek_classes.png, id=21, 602.25pt x 602.25pt
+<./AntonBiryukov_bibtex/figure_foxcreek_classes.png, id=22, 602.25pt x 602.25pt
 >
 File: ./AntonBiryukov_bibtex/figure_foxcreek_classes.png Graphic file (type png
 )
  <use ./AntonBiryukov_bibtex/figure_foxcreek_classes.png>
 Package pdftex.def Info: ./AntonBiryukov_bibtex/figure_foxcreek_classes.png use
-d on input line 183.
-(pdftex.def)             Requested size: 153.9368pt x 153.9347pt.
- [3 <./AntonBiryukov_bibtex/classes.png>]
-<./AntonBiryukov_bibtex/Figure1_1pct.png, id=28, 3011.25pt x 2107.875pt>
-File: ./AntonBiryukov_bibtex/Figure1_1pct.png Graphic file (type png)
-
-<use ./AntonBiryukov_bibtex/Figure1_1pct.png>
-Package pdftex.def Info: ./AntonBiryukov_bibtex/Figure1_1pct.png used on input 
-line 196.
-(pdftex.def)             Requested size: 307.8736pt x 215.49573pt.
-
+d on input line 173.
+(pdftex.def)             Requested size: 143.67226pt x 143.66994pt.
+ [3 <./AntonBiryukov_bibtex/classes.png> <./AntonBiryukov_bibtex/figure_foxcree
+k_classes.png>]
 <./AntonBiryukov_bibtex/Figure1_6pct.png, id=29, 3011.25pt x 2107.875pt>
 File: ./AntonBiryukov_bibtex/Figure1_6pct.png Graphic file (type png)
 
 <use ./AntonBiryukov_bibtex/Figure1_6pct.png>
 Package pdftex.def Info: ./AntonBiryukov_bibtex/Figure1_6pct.png used on input 
-line 205.
+line 187.
 (pdftex.def)             Requested size: 307.8736pt x 215.49573pt.
 
 <./AntonBiryukov_bibtex/figure_map_a.png, id=30, 722.7pt x 361.35pt>
@@ -498,8 +491,8 @@ File: ./AntonBiryukov_bibtex/figure_map_a.png Graphic file (type png)
 
 <use ./AntonBiryukov_bibtex/figure_map_a.png>
 Package pdftex.def Info: ./AntonBiryukov_bibtex/figure_map_a.png used on input 
-line 215.
-(pdftex.def)             Requested size: 384.83807pt x 192.41884pt.
+line 197.
+(pdftex.def)             Requested size: 194.98712pt x 97.49413pt.
 
 <./AntonBiryukov_bibtex/Figure_confusion_horiz.png, id=31, 2023.56pt x 1222.085
 7pt>
@@ -507,24 +500,24 @@ File: ./AntonBiryukov_bibtex/Figure_confusion_horiz.png Graphic file (type png)
 
  <use ./AntonBiryukov_bibtex/Figure_confusion_horiz.png>
 Package pdftex.def Info: ./AntonBiryukov_bibtex/Figure_confusion_horiz.png used
- on input line 228.
-(pdftex.def)             Requested size: 282.21616pt x 170.43817pt.
- [4 <./AntonBiryukov_bibtex/figure_foxcreek_classes.png>] (./GeoConvention.bbl 
-[5 <./AntonBiryukov_bibtex/Figure1_1pct.png>]) [6 <./AntonBiryukov_bibtex/Figur
-e1_6pct.png> <./AntonBiryukov_bibtex/figure_map_a.png>] [7 <./AntonBiryukov_bib
-tex/Figure_confusion_horiz.png>] (./GeoConvention.aux)
+ on input line 209.
+(pdftex.def)             Requested size: 256.55872pt x 154.9421pt.
+ [4 <./AntonBiryukov_bibtex/Figure1_6pct.png> <./AntonBiryukov_bibtex/figure_ma
+p_a.png>]
+(./GeoConvention.bbl) [5 <./AntonBiryukov_bibtex/Figure_confusion_horiz.png>]
+(./GeoConvention.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 5476 strings out of 493304
- 77253 string characters out of 6139871
- 244265 words of memory out of 5000000
- 8820 multiletter control sequences out of 15000+600000
+ 5470 strings out of 493304
+ 77050 string characters out of 6139871
+ 243257 words of memory out of 5000000
+ 8815 multiletter control sequences out of 15000+600000
  77454 words of font info for 57 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 38i,11n,43p,1663b,383s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,12n,43p,1764b,340s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/
@@ -533,10 +526,10 @@ ype1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
 lic/amsfonts/cm/cmsy10.pfb></home/anton/texmf/fonts/type1/urw/arial/ua1b8a.pfb>
 </home/anton/texmf/fonts/type1/urw/arial/ua1r8a.pfb></home/anton/texmf/fonts/ty
 pe1/urw/arial/ua1ri8a.pfb>
-Output written on GeoConvention.pdf (7 pages, 4466320 bytes).
+Output written on GeoConvention.pdf (5 pages, 4253463 bytes).
 PDF statistics:
- 78 PDF objects out of 1000 (max. 8388607)
- 44 compressed objects within 1 object stream
+ 68 PDF objects out of 1000 (max. 8388607)
+ 38 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 

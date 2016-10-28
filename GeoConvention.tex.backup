@@ -108,7 +108,7 @@ The induced seismicity event localization using inverse kinematic algorithms is 
 
 The location constraints are affected by the inaccuracy of the velocity model, limited acquisition geometry and the assumptions inherited by the location algorithm, among other factors. The issue becomes even more aggravated when only surface arrays are employed, where the geometry strongly favors the accuracy of epicentral location as opposed to depth location. The reported depth errors are sometimes comparable to a formation thickness or even the origin depth itself.
 
-The passive seismicity is often located using the P and S first breaks only. Finding additional features of the seismic signal that could be informative of its origin can be a first step towards constraining the depth uncertainty. Therefore, the purpose of this study was two-fold. First, we characterized the uncertainty in the event origin due to the inaccuracy in the effective velocity model. Using Monte-Carlo simulations for a given velocity model uncertainty, the event origin and the receiver array, we simulate the travel times at the stations and then relocate the event. We show that the presence of a low velocity zone (LVZ) can cause the non-uniqueness and a spread of the solution over a large depth range. This spread was found to depend on the scale of the velocity model uncertainty, whereas the epicenter of the event showed low sensitivity to velocity model perturbations. Subsequently, a wave number integration method was utilized to simulate the synthetic seismograms from the synthetic earthquakes spanning the depth range of 2-5km, covering LVZ. For a fixed focal mechanism and frequency content, we numerically generate a bank of waveforms corresponding to the virtual events with known locations. The bank is then divided into a training, cross-validation and test parts. A set of classifiers is trained to predict the event location with respect to LVZ based on arrival times and statistical features of the signal waveforms. We demonstrate that adding several features of the signal, descriptive of its origin can improve the location depth constraint, as opposed to using arrival times only as predictor variables.
+The passive seismicity is often located using the P and S first breaks only. Finding additional features of the seismic signal that could be informative of its origin can be a first step towards constraining the depth uncertainty. Therefore, the purpose of this study was two-fold. First, we characterized the uncertainty in the event origin due to the inaccuracy in the effective velocity model using Monte-Carlo simulations. We show that a low velocity zone (LVZ) can cause the non-uniqueness and a spread of the solution over a depth range. Subsequently, seismograms from a set of synthetic earthquakes were simulated spanning the depth range of 2-5 km, covering LVZ. By varying the focal mechanism and event origin, we numerically generate a bank of waveforms corresponding to the events with known locations. A set of classifiers is trained on the bank to predict the event location with respect to LVZ based on arrival times and statistical features of the signal waveforms. We demonstrate that adding several features of the signal, descriptive of its origin can improve the location depth constraint, as opposed to using arrival times only as predictor variables.
 %
 \section*{Introduction}
 The earthquake localization on a regional scale using inverse kinematic algorithms is still a problem requiring special attention. The on-surface seismic networks for monitoring induced seismicity provide a sufficient location accuracy for the earthquake hypocenter, but often offer very limited resolution in depth (\cite{eisner_uncertainties_2009}). For computational convenience and due to the lack of information, the velocity model used for location is often parametrized as a function of depth only. In some cases such an approximation is a very strong assumption, and it is important to consider several different possible 1D structures to test the sensitivity of the location to errors in the velocity model.
@@ -125,26 +125,21 @@ Subsequently, we simulate the synthetic seismograms from the virtual sources spa
 
 \section*{Methods}
 \subsection*{Generalized workflow}
-This report is particularly focused on estimating the depth error due to the velocity model uncertainty. That is, we want to evaluate the jitter in the hypocenter location due to inaccuracy in the approximation of the true velocity model as a 1D layered cake model derived from $V_{p}$ and $V_{s}$ logs. Specifically, we would like to simulate the travel times from many virtual events with a fixed origin but variable velocity model. These travel times are then used for relocating the events, that should potentially result in a cloud centered at the origin. The spatial dimensions and the shape of the cloud can give a quantitative insight into how sufficient the 1D velocity model assumption might be for a particular region and acquisition geometry.
-
-Therefore, the general workflow can be summarized in several key steps as follows:
-\begin{itemize}
- \item determine the background (expected) velocity model from the sonic logs,
- \item carry out many (9000) Monte-Carlo (MC) simulations for the travel time sets in a perturbed velocity model for an event with a fixed origin,
- \item treating each travel times set independently, locate the event corresponding to the set using background velocity model,
- \item analyze the PDF of the obtained distribution.
-\end{itemize}
-
-\subsection*{Monte - Carlo travel time simulations}
-
-As no anisotropy or 2D elastic profile information was available, the baseline velocity model was approximated as a 1D laterally homogeneous layered medium. The elastic parameters for the layers were derived from the sonic wellbore logs. The velocity uncertainty in this study is modeled through applying a random normal perturbation of $V_{p}$ and $V_{s}$ within a layer, while keeping the thickness of the layers constant. The standard deviation of the perturbation is a fraction of the velocity value within the layer. An example of the velocity profile distribution with the 6\% standard deviation is shown in Figure \ref{fig:vpvs}, with color showing the probability density function (PDF) for the values of $V_{p}$ and $V_{s}$ within the layer. In the case of a 1D layered medium the classic seismic ray theory can produce an exact solution at a very low computational cost. Therefore, a Python-based implementation of a ray tracing method was chosen as a best fit-for-purpose method.
 \begin{wrapfigure}{R}{0.3\textwidth}
+\vspace{-4mm}
 \centering
-\includegraphics[width=0.9\linewidth]{./AntonBiryukov_bibtex/VpVs.png}
+\includegraphics[width=0.28\textwidth]{./AntonBiryukov_bibtex/VpVs.png}
 \vspace{-4mm}
 \caption{An example of the distribution of velocity profile used in the MC simulations. The color represents the values of PDF of the velocity distribution. Note the limited variation of the layer above LVZ due to the creation of the shadow zone.}
 \label{fig:vpvs}
 \end{wrapfigure}
+This report is particularly focused on estimating the depth error due to the velocity model uncertainty. That is, we want to evaluate the jitter in the hypocenter location due to inaccuracy in the approximation of the true velocity model as a 1D layered cake model derived from $V_{p}$ and $V_{s}$ logs. Specifically, we would like to simulate the travel times from many virtual events with a fixed origin but variable velocity model. These travel times are then used for relocating the events, that should potentially result in a cloud centered at the origin. The spatial dimensions and the shape of the cloud can give a quantitative insight into how sufficient the 1D velocity model assumption might be for a particular region and acquisition geometry. Therefore, the general workflow can be summarized in several key steps as follows: (i) determine the background (expected) velocity model from the sonic logs, (ii) carry out Monte-Carlo (MC) simulations for the travel time sets in a perturbed velocity model for an event with a fixed origin, (iii) locate the event corresponding to the set using background velocity model,
+and (iv) analyze the PDF of the obtained distribution.
+
+\subsection*{Monte - Carlo travel time simulations}
+
+As no anisotropy or 2D elastic profile information was available, the baseline velocity model was approximated as a 1D laterally homogeneous layered medium. The elastic parameters for the layers were derived from the sonic wellbore logs. The velocity uncertainty in this study is modeled through applying a random normal perturbation of $V_{p}$ and $V_{s}$ within a layer, while keeping the thickness of the layers constant. The standard deviation of the perturbation is a fraction of the velocity value within the layer. An example of the velocity profile distribution with the 6\% standard deviation is shown in Figure \ref{fig:vpvs}. In the case of a 1D layered medium the classic seismic ray theory can produce an exact solution at a very low computational cost. Therefore, a Python-based implementation of a ray tracing method was chosen as a best fit-for-purpose method.
+
 
 %It is important to notice that for some of the MC realizations the travel times for all four stations were not available due to the strong velocity contrast created at 3200 meter depth. The presence of the contrast caused significant reflection leading to shadowing of the direct P-phase at larger offsets, and as such the realizations were discarded from the analysis. That effect is visible in the Figure \ref{fig:vpvs} by a limited accepted variation of $V_{p}$ within the layer at 2500 - 3200 meters depth.
 
@@ -155,24 +150,11 @@ In the case of a limited recording geometry and a velocity model with sharp hori
 
 %The algorithm searches the grids to find the best-fitting set of travel-times that would approximate the observed travel times for an event. In these simulations we use only local four stations, and utilize both P and S picks for each station, a total of 8 travel times. The spatial volume used for grid-search or Metropolis-Gibbs location must be fully contained within the 3D travel-time grids. This limits the largest station distance that can be used for location since the 3D travel-time computation and the size of the output time-grid files grow rapidly with grid dimension.
 \subsection*{Synthetic waveform modeling}
-The synthetic waveforms used for event origin classification were produced using the wavenumber integration method implemented in CPS suite (\cite{herrmann_computer_2013}). For the particular case of 1D layered homogeneous media, CPS allows one to obtain the full waveforms from the source much quicker than 2D Finite Difference methods commonly used for similar purposes.
-
-For each of the source-receiver pairs simulated in the model we generate a database of Green's functions. The Green's functions are then convolved with the source wavelet of the given dominant frequency $f=2.5$ Hz and a given moment tensor $M_{i,j}$ corresponding to a pure explosive source (identity matrix). To achieve variability in the signal waveforms and mimic realistic amplitude uncertainty, the moment tensor was perturbed with a Gaussian noise:
+The synthetic waveforms used for event origin classification were produced using the wavenumber integration method implemented in CPS suite (\cite{herrmann_computer_2013}). For the particular case of 1D layered homogeneous media, CPS allows one to obtain the full waveforms from the source much quicker than 2D FD methods commonly used for similar purposes. For each of the source-receiver pairs simulated in the model we generate a database of Green's functions. The Green's functions are then convolved with the source wavelet of the given dominant frequency $f=2.5$ Hz and a given moment tensor $M_{i,j}$ corresponding to a pure explosive source (identity matrix). To achieve variability in the signal waveforms and mimic realistic amplitude uncertainty, the moment tensor was perturbed with a Gaussian noise:
 \begin{equation}
  M_{i,j} = 1 + \aleph_{i,j}(0,\sigma_{m}),
 \end{equation}
-where $\sigma_{m} = 0.1$ is the standard deviation of the perturbation. Subsequently, a set of statistical and deterministic features is extracted from the waveforms in order to bring more information about the origin of the signal. Prior to the feature extraction, the signals are all normalized to a unit amplitude. We then obtained the envelope of the signal on the vertical channel using Hilbert transform and chose the following features as the proxy:
-\begin{itemize}
- \item kurtosis of the signal envelope - to show the peaked-ness of the signal and discern between signals with strong and weak multiple reflections,
- \item mean value of the envelope,
- \item standard deviation of the envelope - to show the variability in the envelope,
- \item area under the envelope,
- \item the ratio of the signal energy contained between $t_{p}$ and $t_{s}$ with respect to the whole trace
- \item number of zero-crossings of the envelope derivative - to count the number of local extrema of the envelope
-\end{itemize}
-
-The procedure of modeling and feature extraction is then repeated over the set of values for the moment tensor $M_{i,j}$ and locations covering the range of 2000-5000 meters, thus creating an large dataset for the subsequent classification.
-\subsection*{Signal classification}
+where $\sigma_{m} = 0.1$ is the standard deviation of the perturbation. Subsequently, a set of features is extracted from the waveforms in order to bring more information about the origin of the signal. Prior to the feature extraction, the signals are all normalized to a unit amplitude. We then obtained the envelope of the signal on the vertical channel using Hilbert transform and chose the following features as the proxy:
 \begin{figure*}[htb]
 \begin{center}
 \includegraphics[width=0.7\linewidth,angle=0]{./AntonBiryukov_bibtex/classes.png}
@@ -181,30 +163,29 @@ The procedure of modeling and feature extraction is then repeated over the set o
 \caption{An illustration of the signal classification concept. The signals originating from the locations on the grid (a) are then transformed into a feature space and labeled by the class containing the event origin.}
 \label{fig:classes}
 \end{figure*}
-The concept of the classification is briefly illustrated in Figure \ref{fig:classes}. The zone of interest is first meshed into nodes that can host virtual sources. The signal from an event originating at a node is transformed into the feature space and is labeled according to the location of the grid. The signal database has been divided into 3 classes by the origin depth of the event: (i) above LVZ, (ii) within LVZ, and (iii) below LVZ. The positions were marked according to their relative location with respect to the LVZ as demonstrated in Figure \ref{fig:foxcreek_classes}. For each position of the virtual source 150 simulations with different values of $M_{i,j}$ were carried out. The database was later split into the training (70\% of the total data) and the test datasets (30\% of the total). 
-
-\begin{figure}[b!]
-\begin{center}
-\includegraphics[width=0.3\linewidth,angle=0]{./AntonBiryukov_bibtex/figure_foxcreek_classes.png}
-\end{center}
+\begin{itemize}
+ \item kurtosis of the signal envelope - to show the peaked-ness of the signal and discern between signals with strong and weak multiple reflections,
+ \item mean value of the envelope,
+ \item standard deviation of the envelope - to show the variability in the envelope,
+ \item area under the envelope,
+ \item the ratio of the signal energy contained between $t_{p}$ and $t_{s}$ with respect to the whole trace
+ \item number of zero-crossings of the envelope derivative - to count the number of local extrema of the envelope
+\end{itemize}
+The procedure of modeling and feature extraction is then repeated over the set of values for the moment tensor $M_{i,j}$ and locations covering the range of 2000-5000 meters.
+\subsection*{Signal classification}
+\begin{wrapfigure}{r}{0.3\textwidth}
+\centering
+\includegraphics[width=0.28\textwidth]{./AntonBiryukov_bibtex/figure_foxcreek_classes.png}
 \vspace{-4mm}
 \caption{The relative virtual source-receiver locations for the classification experiment. The colorscale indicates which class an event belongs to.}
 \label{fig:foxcreek_classes}
-\end{figure}
-
-A set of classification algorithms was trained on the training data in order to predict the focal depth of the event (its class) given a set of features of an event of interest from the test data. Therefore, a comparison of prediction accuracy was done between a non-generalizing algorithm - K-nearest-neighbors (\cite{cover_nearest_1967}), and linear classifiers - logistic regression (\cite{jr_applied_2004}) and Support Vector Classifier (\cite{suykens_least_1999}). The output results of the classification can be interpreted in several ways. Here we limit ourselves to the interpretation of the confusion matrix. The elements of the confusion matrix $c_{i,j}$ show the number of observations from class $i$ predicted into class $j$. As a result, non-zero off-diagonal elements indicate the number of mislabeled observations, whereas the diagonal elements indicate the number of correctly predicted observations.
+\end{wrapfigure}
+The concept of the classification is briefly illustrated in Figure \ref{fig:classes}. The zone of interest is first meshed into nodes that can host virtual sources. The signal from an event originating at a node is transformed into the feature space and is labeled according to the location of the grid. The signal database has been divided into 3 classes by the origin depth of the event: (i) above LVZ, (ii) within LVZ, and (iii) below LVZ.
+The positions were marked according to their relative location with respect to the LVZ as demonstrated in Figure \ref{fig:foxcreek_classes}. For each position of the virtual source 150 simulations with different values of $M_{i,j}$ were carried out. The database was later split into the training (70\% of the total data) and the test datasets (30\% of the total). 
+A set of classification algorithms was trained on the training data in order to predict the focal depth of the event (its class) given a set of features of an event of interest from the test data. Therefore, a comparison of prediction accuracy was done between a non-generalizing algorithm - K-nearest-neighbors (\cite{cover_nearest_1967}), and linear classifiers - logistic regression (\cite{jr_applied_2004}) and Support Vector Classifier (\cite{suykens_least_1999}). The output results of the classification can be interpreted in several ways. Here we limit ourselves to the interpretation of the confusion matrix. The elements of the confusion matrix $c_{i,j}$ show the number of observations from class $i$ predicted into class $j$.
 \section*{Results}
 \subsection*{Origin uncertainty estimation}
-The origin depth uncertainty was estimated for the 1\% and 6\% velocity perturbation. For both simulations the true location of the event was set to $(X,Y,Z) = (4000,6000,3910)$. The location centroids of MC simulated events for the two models are shown in Figure \ref{fig:sigma1} and Figure \ref{fig:sigma6}, respectively.In both cases the X and Y coordinates of the event are centered at their true values. The depth of the event is centered 240 meters above the true focal depth in the case of 1\% model. In the 6\% model case the event depth shows a bi-modal distribution, with stronger mode centered 240 meters above the depth. The weaker mode, however tends to center around the true depth of the event. The standard deviation of the depth shows a noticeable increase as the velocity perturbation increases.
-\begin{figure*}[htb]
-\begin{center}
-\includegraphics[width=0.6\linewidth,angle=0]{./AntonBiryukov_bibtex/Figure1_1pct.png}
-\end{center}
-\vspace{-4mm}
-\caption{The results of the location of 1\% velocity perturbation Monte-Carlo simulated virtual events describing the true event at $(X,Y,Z) = (4000,6000,3910)$. The receivers are shown in black triangles, the virtual event centroids - in orange circles.}
-\label{fig:sigma1}
-\end{figure*}
-
+The origin depth uncertainty was estimated for 6\% velocity perturbation. For both simulations the true location of the event was set to $(X,Y,Z) = (4000,6000,3910)$. The location centroids of MC simulated events for the model are shown Figure \ref{fig:sigma6}. The X and Y coordinates of the event are centered at their true values, whereas the depth of the event shows a bi-modal distribution, with stronger mode centered 240 meters above the depth. The weaker mode, however tends to center around the true depth of the event. The standard deviation of the depth shows a noticeable increase as the velocity perturbation increases.
 \begin{figure*}[htb]
 \begin{center}
 \includegraphics[width=0.6\linewidth,angle=0]{./AntonBiryukov_bibtex/Figure1_6pct.png}
@@ -217,7 +198,7 @@ The origin depth uncertainty was estimated for the 1\% and 6\% velocity perturba
 \subsection*{Signal origin classification results}
 \begin{figure}[htb]
 \begin{center}
-\includegraphics[width=0.75\linewidth,angle=0]{./AntonBiryukov_bibtex/figure_map_a.png}
+\includegraphics[width=0.65\linewidth]{./AntonBiryukov_bibtex/figure_map_a.png}
 \end{center}
 \vspace{-4mm}
 \caption{The distribution of induced seismicity in Fox Creek area for the events of winter 2015. The central cluster modeled in this study is shown in cyan.}
@@ -248,7 +229,7 @@ Due to its location with respect to the array, the central cluster is characteri
 %The background velocity model for this study was derived from the sonic log by dividing the measured interval into 6 layers and has not been calibrated. Such a division was based on one person's perception of averaging and layering. While for this particular region, setup and problem it might have been a satisfying approximation, it may not generalize well on the others. Therefore, more attention should be paid towards devising a robust method of velocity profile estimation. One of such methods could be the Reversible Jump Monte-Carlo Markov chain, that could treat the number of layers and values within as unknown and try to fit the step-like function that best explains the variation within the $V_{p}$ or $V_{s}$ log (\cite{sambridge_monte_2002},\cite{bodin_seismic_2009}).
 
 
-It was somewhat expected to notice an increase in the accuracy of the origin depth prediction using the feature set with signal properties compared to the travel-time based prediction only. Although we cannot yet provide a solid ground for selecting optimal signal properties, the choice of the particular features is rather logical. The energy transmitted by the signal, as well as the interbed reflection arrival times and amplitudes wound vary as the function of the event origin. Therefore, it is rational to experiment with the quantities of the signal sensitive to these phenomena. The classification approach demonstrated here is by no means exhaustive, and more work needs to be done in this potentially promising topic.
+Although we cannot yet provide a solid ground for selecting optimal signal properties, the choice of the particular features is rather logical. The transmitted energy, and interbed multiple arrivals and amplitudes would vary as the function of the event origin. Therefore, it is rational to experiment with the quantities of the signal sensitive to these phenomena. The classification approach demonstrated here is by no means exhaustive, and more work needs to be done in this potentially promising topic.
 
 
 %Given the low values of hypocenter uncertainties, a possible continuation of the work could be towards discretization the depth range and running an N-class classification, where N is the number of classes that would represent possible zones of signal clustering. Alternative route could be relating the signal waveforms to the physics that caused it, e.g. classification between natural earthquakes and mining blasts.
